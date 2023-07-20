@@ -26,6 +26,11 @@ import { MnistData } from './data.js';
 //     })();
 // });
 
+// function runScript() {
+//     run;
+// }
+
+// document.getElementById("triggerFetchFunction").addEventListener("click", runScript);
 
 async function showExamples(data) {
     // Create a container in the visor
@@ -98,7 +103,7 @@ async function run() {
         callbacks: fitCallbacks
     });
 }
-document.addEventListener('DOMContentLoaded', run);
+document.getElementById('triggerFetchFunction').addEventListener('click', run);
 
 
 function getModel() {
