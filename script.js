@@ -1,5 +1,32 @@
 import { MnistData } from './data.js';
 
+// // Define the asynchronous function that you want to run when the button is clicked
+// async function runScriptFunction() {
+//     // Add the asynchronous script functionality here
+//     document.addEventListener('DOMContentLoaded', run);
+
+//     console.log("Asynchronous Fetch script function is running!");
+
+//     // Simulate an asynchronous operation with a delay (e.g., fetching data)
+//     await new Promise(resolve => setTimeout(resolve, 2000));
+
+//     console.log("Asynchronous Fetch operation completed!");
+// }
+
+// // Add an event listener to the button to trigger the async function when clicked
+// document.getElementById("runScriptButton").addEventListener("click", () => {
+//     // Call the async function within an async IIFE (Immediately Invoked Function Expression)
+//     (async () => {
+//         // Wrap the function call inside a try-catch block to handle any errors
+//         try {
+//             await runScriptFunction();
+//         } catch (error) {
+//             console.error("Error in fetching data:", error);
+//         }
+//     })();
+// });
+
+
 async function showExamples(data) {
     // Create a container in the visor
     const surface =
@@ -71,9 +98,7 @@ async function run() {
         callbacks: fitCallbacks
     });
 }
-
 document.addEventListener('DOMContentLoaded', run);
-
 
 
 function getModel() {

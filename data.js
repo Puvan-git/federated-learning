@@ -15,6 +15,13 @@
  * =============================================================================
  */
 
+
+/** 
+ * Preprocessing of data to be used to train 
+ * 
+ * NOTE: Have to work on using Healthcare or Agricultural Datasets
+ * for Federated Learning
+*/
 const IMAGE_SIZE = 784;
 const NUM_CLASSES = 10;
 const NUM_DATASET_ELEMENTS = 65000;
@@ -113,11 +120,12 @@ export class MnistData {
     }
 
     nextTestBatch(batchSize) {
-        return this.nextBatch(batchSize, [this.testImages, this.testLabels], () => {
-            this.shuffledTestIndex =
-                (this.shuffledTestIndex + 1) % this.testIndices.length;
-            return this.testIndices[this.shuffledTestIndex];
-        });
+        return this.nextBatch(
+            batchSize, [this.testImages, this.testLabels], () => {
+                this.shuffledTestIndex =
+                    (this.shuffledTestIndex + 1) % this.testIndices.length;
+                return this.testIndices[this.shuffledTestIndex];
+            });
     }
 
     nextBatch(batchSize, data, index) {
