@@ -4,17 +4,19 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>First MVP</title>
+  <title>Second MVP</title>
+  <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
-    <!-- <div id="root">
+    <div id="root">
         <div>
             <div id="container">
                 <div id="header">
                     <div id="header-content" class="content-wrapper">
                         <a id="logo" href="/">
-                            <span class="logo-text">FL Visualisation</span>
+                            <span class="logo-text">Federated Learning Playground</span>
+                            <span class="logo-prompt">|</span>
                         </a>
                     </div>
                 </div>
@@ -38,9 +40,9 @@
                         <div>
                             <h3>Example datasets</h3>
                             <div id="example-datasets">
-                                <button class="dataset-link" id="runScriptButton">
-                                    <span class="dataset-name">MNIST Dataset</span>
-                                    <p class="dataset-description">Build your own real-estate AI that estimates houses' sale price based on size, location, age, ...</p>
+                                <button class="dataset-link" id="triggerFetchFunction">
+                                    <span class="dataset-name">Digit recognition</span>
+                                    <p class="dataset-description">Given a black and white image of a particular size, classify and predict which handwritten digit appears to be in the image (from 0 to 9)</p>
                                 </button>
                                 <button class="dataset-link">
                                     <span class="dataset-name">Diabetes detection</span>
@@ -86,8 +88,7 @@
                 </div>
             </div>
         </div>
-    </div> -->
-    <button id="triggerFetchFunction">Fetch MNIST Dataset</button>
+    </div>
 
 
     <!-- Import TensorFlow.js -->
