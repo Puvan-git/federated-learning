@@ -78,6 +78,8 @@ def save_data(args, results_all, net_glob, round):
     np.save(f"./results/FedAvg_{params}.npy", np.array(results_all))
     # save models
     torch.save(net_glob, f"./results/FedAvg_{params}.pt")
+    # convert model to ONNX format
+    # torch.onnx.export
 
 
 def exp_details(args):
