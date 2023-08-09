@@ -11,6 +11,7 @@ from models.client import LocalUpdate, cal_loss
 def FedAvg(args):
     """
     fedavg main algorithm
+    - fedProx < possible algorithm, allow selection choice from user
     """
     args.device = torch.device(
         f"cuda:{args.gpu}" if torch.cuda.is_available() and args.gpu != -

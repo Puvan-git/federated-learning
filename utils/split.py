@@ -18,6 +18,9 @@ def mnist_iid(dataset, num_users):
 def mnist_noniid(dataset, num_users):
     """
     split data in noniid way
+    - use KS Metric to split
+    - dirichlet distribution
+    - quantity based label imbalance
     """
     num_shards, num_imgs = 200, 300
     idx_shard = [i for i in range(num_shards)]
