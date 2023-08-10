@@ -4,11 +4,11 @@ import numpy as np
 data_rounds = 100
 plot_rounds = data_rounds
 
-cnn1_noniid = np.load('./results/FedAvg_mnist_rounds-' +
+cnn1_noniid = np.load('./results/rounds_100/FedAvg_mnist_rounds-' +
                       str(data_rounds) + '_iid-0_cnn1.npy', allow_pickle=True).tolist()
-mlp1_noniid = np.load('./results/FedAvg_mnist_rounds-' +
+mlp1_noniid = np.load('./results/rounds_100/FedAvg_mnist_rounds-' +
                       str(data_rounds) + '_iid-0_mlp1.npy', allow_pickle=True).tolist()
-resnet1_noniid = np.load('./results/FedAvg_mnist_rounds-' +
+resnet1_noniid = np.load('./results/rounds_100/FedAvg_mnist_rounds-' +
                          str(data_rounds) + '_iid-0_resnet1.npy', allow_pickle=True).tolist()
 # cnn2_noniid = np.load('./results/FedAvg_mnist_rounds-' +
 #                       str(data_rounds) + '_iid-0_cnn2.npy', allow_pickle=True).tolist()
@@ -17,11 +17,11 @@ resnet1_noniid = np.load('./results/FedAvg_mnist_rounds-' +
 # resnet2_noniid = np.load('./results/FedAvg_mnist_rounds-' +
 #                          str(data_rounds) + '_iid-0_resnet2.npy', allow_pickle=True).tolist()
 
-mlp1_iid = np.load('./results/FedAvg_mnist_rounds-' +
+mlp1_iid = np.load('./results/rounds_100/FedAvg_mnist_rounds-' +
                    str(data_rounds) + '_iid-1_mlp1.npy', allow_pickle=True).tolist()
-cnn1_iid = np.load('./results/FedAvg_mnist_rounds-' +
+cnn1_iid = np.load('./results/rounds_100/FedAvg_mnist_rounds-' +
                    str(data_rounds) + '_iid-1_cnn1.npy', allow_pickle=True).tolist()
-resnet1_iid = np.load('./results/FedAvg_mnist_rounds-' +
+resnet1_iid = np.load('./results/rounds_100/fdaddFedAvg_mnist_rounds-' +
                       str(data_rounds) + '_iid-1_resnet1.npy', allow_pickle=True).tolist()
 # mlp2_iid = np.load('./results/FedAvg_mnist_rounds-' +
 #                    str(data_rounds) + '_iid-1_mlp2.npy', allow_pickle=True).tolist()
