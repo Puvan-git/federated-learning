@@ -19,7 +19,8 @@ def mnist_iid(dataset, num_users):
 def mnist_noniid(dataset, num_users):
     """
     split data in noniid way
-    - use KS Metric to split [-]
+    - random manner [x]
+    - use KS Metric to split [x]
     - dirichlet distribution []
     - quantity based label imbalance []
     """
@@ -49,30 +50,39 @@ def mnist_noniid(dataset, num_users):
 
     """
     KS metric manner
+    To implement the KS metric correctly for splitting data in a non-iid manner,
+    calculate the KS statistic between the CDFs of each client's label
+    distribution and the overall label distribution. Then, you can sort and assign 
+    shards to clients based on this KS statistic
     """
+    # Number of data shards and images per shard
     num_shards, num_imgs = 200, 300
+
+    # Initialize shard indices and dictionary to hold user data
     idx_shard = [i for i in range(num_shards)]
     dict_users = {i: np.array([], dtype="int64") for i in range(num_users)}
     idxs = np.arange(num_shards * num_imgs)
+
+    # Get the labels from the dataset
     labels = dataset.train_labels.numpy()
 
-    idxs_labels = np.vstack((idxs, labels))
-    idxs_labels = idxs_labels[:, idxs_labels[1, :].argsort()]
-    idxs = idxs_labels[0, :]
-
-    # Calculate the CDF of label distribution
+    # Calculate the cumulative distribution function (CDF) of label distribution in the entire dataset
     cdf_labels = np.cumsum(np.bincount(labels)) / len(labels)
 
+    # Iterate through each user
     for i in range(num_users):
-        # Calculate the CDF of label distribution for this user
-        user_labels = labels[dict_users[i]]
+        # Retrieve labels of data assigned to this user (if any)
+        user_labels = labels[dict_users[i]] if len(
+            dict_users[i]) > 0 else labels
+
+        # Calculate the CDF of label distribution for this user's data
         cdf_user_labels = np.cumsum(
             np.bincount(user_labels)) / len(user_labels)
 
-        # Calculate the KS statistic between the user's CDF and the overall CDF
+        # Calculate the KS statistic between user's CDF and overall CDF
         ks_statistic, _ = ks_2samp(cdf_user_labels, cdf_labels)
 
-        # Sort the shards based on KS statistic in descending order
+        # Sort the shards based on KS statistic difference from ideal CDF match
         idx_shard.sort(
             key=lambda x: -abs(ks_statistic - (2 * x / num_shards - 1)))
 
