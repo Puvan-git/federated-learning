@@ -6,6 +6,8 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+app.static_folder = 'static'
+
 @app.route('/train')
 def train_model():
     # Code to start the model training process

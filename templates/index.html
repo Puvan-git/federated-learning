@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Second MVP</title>
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
@@ -21,6 +21,11 @@
                     </div>
                 </div>
                 <div id="content" class="content-wrapper">
+                    <h1>Model Training Interface</h1>
+                    <p>Click the button below to start training:</p>
+                    <form action="/train" method="get">
+                        <button type="submit">Button over here: Start Training</button>
+                    </form>
                     <nav class="steps">
                         <button class="current-step">
                             <div class="step-number">1</div>
@@ -91,18 +96,5 @@
     </div>
 
 
-    <!-- Import TensorFlow.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
-    <!-- Import tfjs-vis -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js"></script>
-
-    <!-- Import the data file -->
-    <script src="data.js" type="module"></script>
-
-    <!-- Import the main script file -->
-    <script src="script.js" type="module"></script>
-
-    <script src="tf.min.js"></script>
-    <script src="tfjs-vis.umd.min.js"></script>
 </body>
 </html>

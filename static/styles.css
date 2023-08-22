@@ -200,7 +200,7 @@ h3 {
     gap: 20px;
     grid-auto-flow: column;
     grid-template-columns: repeat(-webkit-min-content, 1fr);
-    grid-template-columns: repeat(min-content, 1fr)
+    /* grid-template-columns: repeat(min-content, 1fr) */
 }
 
 @media (max-width: 700px) {
@@ -1151,8 +1151,8 @@ h3 {
 
 .filepond--list-scroller[data-state=overflow] {
     -webkit-overflow-scrolling: touch;
-    -webkit-mask: linear-gradient(180deg, #000 calc(100% - .5em), transparent);
-    mask: linear-gradient(180deg, #000 calc(100% - .5em), transparent);
+    /* -webkit-mask: linear-gradient(180deg, #000 calc(100% - .5em), transparent); */
+    /* mask: linear-gradient(180deg, #000 calc(100% - .5em), transparent); */
     overflow-x: hidden;
     overflow-y: scroll
 }
@@ -1161,13 +1161,13 @@ h3 {
     background: transparent
 }
 
-.filepond--list-scroller::-webkit-scrollbar:vertical {
+/* .filepond--list-scroller::-webkit-scrollbar:vertical {
     width: 1em
-}
+} */
 
-.filepond--list-scroller::-webkit-scrollbar:horizontal {
+/* .filepond--list-scroller::-webkit-scrollbar:horizontal {
     height: 0
-}
+} */
 
 .filepond--list-scroller::-webkit-scrollbar-thumb {
     background-clip: content-box;
@@ -1272,14 +1272,14 @@ h3 {
     visibility: visible !important
 }
 
-@media not all and (-webkit-min-device-pixel-ratio: 0),
+/* @media not all and (-webkit-min-device-pixel-ratio: 0),
 not all and(min-resolution: 0.001dpcm) {
     @supports (-webkit-appearance: none) and(stroke-color: transparent) {
         .filepond--root[data-style-panel-layout~=circle] {
             will-change: transform
         }
     }
-}
+} */
 
 .filepond--panel-root {
     background-color: #f1f0ef;
