@@ -1,3 +1,5 @@
+# Modify method in which data is split in noniid way
+
 import numpy as np
 from torchvision import datasets, transforms
 from scipy.stats import ks_2samp

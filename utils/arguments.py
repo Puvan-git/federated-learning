@@ -1,3 +1,5 @@
+# Modify settings for training
+
 import argparse
 
 

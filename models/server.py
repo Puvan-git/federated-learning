@@ -1,3 +1,5 @@
+# Modify Federated Learning algorithm
+
 import torch
 import time
 import torch
@@ -6,13 +8,21 @@ import numpy as np
 from utils.dataset import load_dataset, load_model, exp_details, save_data
 from models.test import test
 from models.client import LocalUpdate, cal_loss
+from argparse import Namespace
 
 
-def FedAvg(args):
+def FedAvg(user_input):
     """
     fedavg main algorithm
     - fedProx < possible algorithm, allow selection choice from user
     """
+
+    args = Namespace(
+        dataset=user_input.get('dataset', 'mnist'),
+        local_ep=user_input.get('local-epochs', 10),
+        model=user_input.get('model', 'mlp1'),
+        rounds=int(user_input.get('rounds', 500))
+    )
     args.device = torch.device(
         f"cuda:{args.gpu}" if torch.cuda.is_available() and args.gpu != -
         1 else "cpu"

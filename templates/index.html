@@ -9,7 +9,63 @@
 </head>
 
 <body>
-    <div id="root">
+    <form id="training-form">
+        <label for="dataset">Dataset:</label>
+        <select name="dataset" id="dataset">
+            <option value="mnist">MNIST</option>
+            <option value="cifar10">CIFAR-10</option>
+            <!-- Add more dataset options as needed -->
+        </select><br>
+    
+        <label for="algorithm">Algorithm:</label>
+        <select name="algorithm" id="algorithm">
+            <option value="algorithm1">Algorithm 1</option>
+            <option value="algorithm2">Algorithm 2</option>
+            <!-- Add more algorithm options as needed !-->
+        </select><br> 
+    
+        <label for="local-epochs">Number of Local Epochs:</label>
+        <input type="range" name="local-epochs" id="local-epochs" min="1" max="10" value="5"><br>
+
+        <label for="num-users">Number of Users:</label>
+        <input type="range" name="num-users" id="num-users" min="5" max="50" value="10"><br>
+
+        <label for="communication-rounds">Number of Communication Rounds:</label>
+        <input type="range" name="communication-rounds" id="communication-rounds" min="100" max="1000" value="100"><br>
+        
+        <label for="degree-of-noniid">Degree of Non-IID:</label>
+        <input type="range" name="degree-of-noniid" id="degree-of-noniid" min="0" max="1" step="0.01" value="0">
+        <br>
+        <span id="degree-label">0: Non-IID</span><br>
+    
+        <input type="submit" value="Start Training" id="start-training">
+        <div id="status"></div>
+    </form>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port + '/train');
+
+        socket.on('update_status', function(data) {
+            document.getElementById('status').innerHTML = data.data;
+        });
+
+        document.getElementById('training-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var form = event.target;
+        var formData = new FormData(form);
+
+        // Send the form data to the server using WebSocket
+        socket.emit('train', { params: Object.fromEntries(formData) });
+    });
+    </script>
+
+</body>
+</html>
+
+
+
+    <!-- <div id="root">
         <div>
             <div id="container">
                 <div id="header">
@@ -23,7 +79,7 @@
                 <div id="content" class="content-wrapper">
                     <h1>Model Training Interface</h1>
                     <p>Click the button below to start training:</p>
-                    <form action="/train" method="get">
+                    <button id="start-training">
                         <button type="submit">Start Training<br><br><br><br><br><br><br><br><br><br><br><br><br><br></button>
                     </form>
                     <nav class="steps">
@@ -93,8 +149,4 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-</body>
-</html>
+    </div> -->
