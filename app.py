@@ -1,6 +1,11 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 from models.server import FedAvg
+import logging
+
+# Set the desired log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+logging.basicConfig(level=logging.DEBUG)
+
 
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode='eventlet')
@@ -17,7 +22,8 @@ app.static_folder = 'static'
 @socketio.on('train')
 def start_training(message):
     user_input = message.get('params', {})  # Get user input as a dictionary
-    print('hi')
+    logging.debug('Received "train" event')  # Log that the event was received
+
     # Example: Access individual parameters
     FedAvg(user_input)
 
