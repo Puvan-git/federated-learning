@@ -21,7 +21,7 @@ def FedAvg(user_input):
         dataset=user_input.get('dataset', 'mnist'),
         local_ep=10,
         model=user_input.get('model', 'mlp1'),
-        rounds=int(user_input.get('rounds', 500)),
+        rounds=int(user_input.get('rounds', 10)),
         iid=1,
         num_users=int(user_input.get('number', 10)),
         num_classes=10,
