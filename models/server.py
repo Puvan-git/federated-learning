@@ -19,12 +19,27 @@ def FedAvg(user_input):
 
     args = Namespace(
         dataset=user_input.get('dataset', 'mnist'),
-        local_ep=user_input.get('local-epochs', 10),
+        local_ep=10,
         model=user_input.get('model', 'mlp1'),
         rounds=int(user_input.get('rounds', 500)),
         iid=1,
-        num_users=int(user_input.get('number', 10))
+        num_users=int(user_input.get('number', 10)),
+        num_classes=10,
+        lr=0.01,
+        frac=0.1,
+        num_channels=32,
+        decay=1,
+        local_bs=16,
+        bs=128,
+        momentum=0.5,
+        optimizer='sgd',
+        gpu=0,
+        verbose=0,
+        seed=1,
+        selected_clients=0,
+        split='user'
     )
+
     args.device = torch.device(
         f"cuda:{args.gpu}" if torch.cuda.is_available() and args.gpu != -
         1 else "cpu"
