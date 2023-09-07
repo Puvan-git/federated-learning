@@ -1,23 +1,172 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html>
     <head>
-        <meta charset="utf-8" />
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="description"
-            content="Web site created using create-react-app" />
-        <link rel="apple-touch-icon" href="/logo192.png" />
-        <link rel="manifest" href="/manifest.json" />
-        <title>React App</title>
-        <script defer="defer" src="/static/js/main.741f30ae.js"></script>
-        <link href="/static/css/main.073c9b0a.css" rel="stylesheet">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Second MVP</title>
+        <link rel="stylesheet" type="text/css"
+            href="{{ url_for('static', filename='styles.css') }}">
     </head>
 
-    <body><noscript>You
-            need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
-    </body>
+    <body>
+        <form id="training-form">
+            <label for="dataset">Dataset:</label>
+            <select name="dataset" id="dataset">
+                <option value="mnist">MNIST</option>
+                <option value="cifar10">CIFAR-10</option>
+                <!-- Add more dataset options as needed -->
+            </select><br>
 
+            <!-- <label for="algorithm">Algorithm:</label> -->
+            <!-- <select name="algorithm" id="algorithm"> -->
+            <!-- <option value="algorithm1">Algorithm 1</option> -->
+            <!-- <option value="algorithm2">Algorithm 2</option> -->
+            <!-- Add more algorithm options as needed !-->
+            <!-- </select><br>  -->
+
+            <label for="local-epochs">Number of Local Epochs:</label>
+            <input type="range" name="local-epochs" id="local-epochs" min="1"
+                max="10" value="5"><br>
+
+            <label for="model">Model:</label>
+            <select name="model" id="model">
+                <option value="mlp1">mlp1</option>
+                <option value="cnn">cnn</option>
+                <!-- Add more dataset options as needed -->
+            </select><br>
+            <!-- <label for="num-users">Number of Users:</label> -->
+            <!-- <input type="range" name="num-users" id="num-users" min="5" max="50" value="10"><br> -->
+
+            <label for="communication-rounds">Number of Communication Rounds:</label>
+            <input type="range" name="communication-rounds"
+                id="communication-rounds" min="100" max="1000" value="100"><br>
+
+            <!-- <label for="degree-of-noniid">Degree of Non-IID:</label>
+        <input type="range" name="degree-of-noniid" id="degree-of-noniid" min="0" max="1" step="0.01" value="0"> -->
+            <!-- <br>
+        <span id="degree-label">0: Non-IID</span><br> -->
+            <label for="number">No. Of Users</label>
+            <select name="number" id="number">
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <!-- Add more dataset options as needed -->
+            </select><br>
+
+            <input type="submit" value="Start Training" id="start-training">
+            <div id="status"></div>
+        </form>
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+        <script>
+        var socket = io.connect('http://127.0.0.1:5000');
+        if (socket.connected) {
+            console.log('Socket is connected.');
+        } else {
+            console.log('Socket is not connected.');
+        }
+
+        socket.on('update_status', function(data) {
+            document.getElementById('status').innerHTML = data.data;
+        });
+
+        document.getElementById('training-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var form = event.target;
+        var formData = new FormData(form);
+
+        // Send the form data to the server using WebSocket
+        socket.emit('train', { params: Object.fromEntries(formData) });
+        console.log("form data sent");
+    });
+    </script>
+
+    </body>
 </html>
+
+<!-- <div id="root">
+        <div>
+            <div id="container">
+                <div id="header">
+                    <div id="header-content" class="content-wrapper">
+                        <a id="logo" href="/">
+                            <span class="logo-text">Federated Learning Playground</span>
+                            <span class="logo-prompt">|</span>
+                        </a>
+                    </div>
+                </div>
+                <div id="content" class="content-wrapper">
+                    <h1>Model Training Interface</h1>
+                    <p>Click the button below to start training:</p>
+                    <button id="start-training">
+                        <button type="submit">Start Training<br><br><br><br><br><br><br><br><br><br><br><br><br><br></button>
+                    </form>
+                    <nav class="steps">
+                        <button class="current-step">
+                            <div class="step-number">1</div>
+                            <div class="step-name">Load Dataset</div>
+                        </button>
+                        <button disabled>
+                            <div class="step-number">2</div>
+                            <div class="step-name">Select Target</div>
+                        </button>
+                        <button disabled>
+                            <div class="step-number">3</div>
+                            <div class="step-name">Select Features</div>
+                        </button>
+                    </nav>
+                    <div class="step-content">
+                        <h2>Select a dataset to use</h2>
+                        <div>
+                            <h3>Example datasets</h3>
+                            <div id="example-datasets">
+                                <button class="dataset-link" id="triggerFetchFunction">
+                                    <span class="dataset-name">Digit recognition</span>
+                                    <p class="dataset-description">Given a black and white image of a particular size, classify and predict which handwritten digit appears to be in the image (from 0 to 9)</p>
+                                </button>
+                                <button class="dataset-link">
+                                    <span class="dataset-name">Diabetes detection</span>
+                                    <p class="dataset-description">Predict if a person will develop diabetes based on various health signals (glucose level, blood presure, age, etc.)</p>
+                                </button>
+                                <button class="dataset-link">
+                                    <span class="dataset-name">Agricultural yield</span>
+                                    <p class="dataset-description">Use average precipations, temperatures, and pesticide use to predict different crops' yield.</p>
+                                </button>
+                                <button class="dataset-link">
+                                    <span class="dataset-name">Iris classification</span>
+                                    <p class="dataset-description">In this textbook multi-class ML problem, build a model to distuinguish between 3 types of (iris) flowers.</p>
+                                </button>
+                            </div>
+                            <h3>Load your own dataset</h3>
+                            <div class="filepond--wrapper">
+                                <div class="filepond--root filepond--hopper" data-style-button-remove-item-position="left" data-style-button-process-item-position="right" data-style-load-indicator-position="right" data-style-progress-indicator-position="right" data-style-button-remove-item-align="false" style="height: 76px;">
+                                    <input class="filepond--browser" type="file" id="filepond--browser-q9eojrg9i" name="files" aria-controls="filepond--assistant-q9eojrg9i" aria-labelledby="filepond--drop-label-q9eojrg9i">
+                                    <div class="filepond--drop-label" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
+                                        <label for="filepond--browser-q9eojrg9i" id="filepond--drop-label-q9eojrg9i" aria-hidden="true">Drag &amp; Drop your data or 
+                                            <span class="filepond--label-action" tabindex="0">click here</span>. (Excel or CSV format)</label>
+                                    </div>
+                                    <div class="filepond--list-scroller" style="transform: translate3d(0px, 0px, 0px);">
+                                        <ul class="filepond--list" role="list"></ul>
+                                    </div>
+                                    <div class="filepond--panel filepond--panel-root" data-scalable="true">
+                                        <div class="filepond--panel-top filepond--panel-root">
+                                        </div>
+                                        <div class="filepond--panel-center filepond--panel-root" style="transform: translate3d(0px, 8px, 0px) scale3d(1, 0.6, 1);">
+                                        </div>
+                                        <div class="filepond--panel-bottom filepond--panel-root" style="transform: translate3d(0px, 68px, 0px);">
+                                        </div>
+                                    </div><span class="filepond--assistant" id="filepond--assistant-q9eojrg9i" role="status" aria-live="polite" aria-relevant="additions"></span>
+                                    <div class="filepond--drip"></div>
+                                    <fieldset class="filepond--data"></fieldset>
+                                </div>
+                            </div>
+                            <input type="checkbox" checked=""> Use the first row as a header.<h3>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->

@@ -8,22 +8,23 @@ import numpy as np
 from utils.dataset import load_dataset, load_model, exp_details, save_data
 from models.test import test
 from models.client import LocalUpdate, cal_loss
+from flask_socketio import emit
 from argparse import Namespace
 
 
-def FedAvg(user_input):
+def FedAvg():
     """
     fedavg main algorithm
     - fedProx < possible algorithm, allow selection choice from user
     """
 
     args = Namespace(
-        dataset=user_input.get('dataset', 'mnist'),
+        dataset='mnist',
         local_ep=10,
-        model=user_input.get('model', 'mlp1'),
-        rounds=int(user_input.get('rounds', 10)),
+        model='mlp1',
+        rounds=10,
         iid=1,
-        num_users=int(user_input.get('number', 10)),
+        num_users=10,
         num_classes=10,
         lr=0.01,
         frac=0.1,
@@ -95,6 +96,10 @@ def FedAvg(user_input):
             "Runtime: " +
             str(round(time.time() - round_start_time, 2)) + " seconds\n"
         )
+
+        # Emit training status to frontend
+        emit('update_status', {
+            'data': f"Round {iter}/{args.rounds}, Loss {loss_train:.3f}, Accuracy {acc_test.item():.3f}"}, namespace='/train')
 
 
 def avg(w_clients):

@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 app = Flask(__name__)
-socketio = SocketIO(app, async_mode='eventlet')
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
 
 
 @app.route('/')
@@ -20,16 +20,18 @@ app.static_folder = 'static'
 
 
 @socketio.on('train')
-def start_training(message):
-    user_input = message.get('params', {})  # Get user input as a dictionary
+# For now the message parameter will be optional,
+# send user input thru the form afterwards
+def start_training(message=None):
+    # user_input = message.get('params', {})  # Get user input as a dictionary
     logging.debug('Received "train" event')  # Log that the event was received
 
     # Example: Access individual parameters
-    FedAvg(user_input)
+    FedAvg()
 
-    # Start your federated training here with user_input parameters
+    # Start federated training here with user_input parameters
     # Replace simulate_training() with your actual training logic
-    simulate_training(user_input.get('rounds', 10))
+    # simulate_training(user_input.get('rounds', 10))
 
     emit('update_status', {
          'data': 'Training completed!'}, namespace='/train')
@@ -37,8 +39,6 @@ def start_training(message):
 
 def simulate_training(rounds):
     # Access user input parameters and configure the training process
-
-    # Your actual federated training logic using the user's input
     import time
     for i in range(rounds):
         time.sleep(1)

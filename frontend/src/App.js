@@ -1,38 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { MainPage } from './MainPage';
+import { TrainingPage } from './TrainingPage';
+
 
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route path="/" exact>
-          <MainPage />
-        </Route>
-        <Route path="/training">
-          <TrainingPage />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/training" element={<TrainingPage />} />
+      </Routes>
     </Router>
-  );
-}
-
-function MainPage() {
-  return (
-    <div>
-      <button onClick={() => window.location.href = "/training"}>
-        Start Training
-      </button>
-    </div>
-  );
-}
-
-function TrainingPage() {
-  return (
-    <div>
-      Training in progress...
-    </div>
   );
 }
 
