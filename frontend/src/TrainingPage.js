@@ -12,10 +12,12 @@ export function TrainingPage() {
     const [trainingStatus, setTrainingStatus] = useState('ongoing'); // New state
 
     useEffect(() => {
-        const socket = io('http://localhost:5000');
+        const socket = io('http://127.0.0.1:5000');
 
         socket.on('update', (newData) => {
-            // Only update if trainingStatus is 'ongoing'
+            console.log("Data Received");
+            // Update the component's state when its ongoing only 
+            // with new data received from the server
             if (trainingStatus === 'ongoing') {
                 setTrainingData(prevData => ({
                     rounds: [...prevData.rounds, newData.round],
@@ -31,6 +33,7 @@ export function TrainingPage() {
             }
         });
 
+        console.log("hi");
         return () => {
             socket.disconnect();
         };

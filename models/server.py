@@ -100,8 +100,8 @@ def FedAvg():
         # Emit training status to frontend
         emit('update', {
             'data': f"Round {iter}/{args.rounds}, Loss {loss_train:.3f}, Accuracy {acc_test.item():.3f}"})
-        print("Round {iter} data is sent")
-        time.sleep(3)
+        print(f"Round {iter} data is sent")
+        time.sleep(1)
 
 
 def avg(w_clients):
