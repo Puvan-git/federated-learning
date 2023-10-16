@@ -1,4 +1,5 @@
 from flask import Flask, render_template, send_from_directory
+from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from models.server import FedAvg
 import logging
@@ -8,7 +9,9 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
+CORS(app)
+socketio = SocketIO(
+    app, cors_allowed_origins="http://localhost:3000", async_mode='eventlet')
 
 
 @app.route('/')

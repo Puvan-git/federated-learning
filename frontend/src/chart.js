@@ -1,8 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-function TrainingChart({ data }) {
-    const chartRef = useRef(null); // Reference to the chart
+const TrainingChart = ({ data }) => {
 
     const chartData = {
         labels: data.rounds,
@@ -10,33 +9,25 @@ function TrainingChart({ data }) {
             {
                 label: 'Loss',
                 data: data.losses,
-                borderColor: 'red',
-                fill: false
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
             },
             {
                 label: 'Accuracy',
                 data: data.accuracies,
-                borderColor: 'blue',
-                fill: false
+                fill: false,
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
             }
         ]
     };
 
-    const options = {
-        scales: {
-            x: {
-                beginAtZero: true,
-            },
-            y: {
-                beginAtZero: true,
-                //type: 'linear'
-            }
-        }
-    };
+    const options = {};
 
     return (
         <div>
-            <Line data={chartData} options={options} ref={chartRef} />
+            <Line data={chartData} options={options} key={data.rounds.length} />
         </div>
     );
 }

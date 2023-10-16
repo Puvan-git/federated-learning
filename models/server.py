@@ -22,7 +22,7 @@ def FedAvg():
         dataset='mnist',
         local_ep=10,
         model='mlp1',
-        rounds=10,
+        rounds=5,
         iid=1,
         num_users=10,
         num_classes=10,
@@ -99,8 +99,8 @@ def FedAvg():
 
         # Emit training status to frontend
         emit('update', {
-            'data': f"Round {iter}/{args.rounds}, Loss {loss_train:.3f}, Accuracy {acc_test.item():.3f}"})
-        print(f"Round {iter} data is sent")
+            'rounds': f"Round {iter}/{args.rounds}, losses {loss_train:.3f}, accuracies {acc_test.item():.3f}"})
+        print(f"Round {iter} data is sent\n")
         time.sleep(1)
 
 

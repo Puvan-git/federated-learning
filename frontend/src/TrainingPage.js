@@ -11,6 +11,23 @@ export function TrainingPage() {
 
     const [trainingStatus, setTrainingStatus] = useState('ongoing'); // New state
 
+    // useEffect(() => {
+    //     const socket = io('http://127.0.0.1:5000');
+
+    //     socket.on('update', (newData) => {
+    //         // Update the component's state with new data received from the server
+    //         setTrainingData(prevData => ({
+    //             rounds: [...prevData.rounds, newData.round],
+    //             losses: [...prevData.losses, newData.loss],
+    //             accuracies: [...prevData.accuracies, newData.accuracy]
+    //         }));
+    //     });
+
+    //     return () => {
+    //         socket.disconnect();
+    //     };
+    // }, []);
+
     useEffect(() => {
         const socket = io('http://127.0.0.1:5000');
 
@@ -35,14 +52,15 @@ export function TrainingPage() {
 
         console.log("hi");
         return () => {
-            socket.disconnect();
+            // socket.disconnect();
+            console.log("training ended")
         };
     }, [trainingStatus]);
 
     return (
         <div>
             <h1>Training Progress</h1>
-            <TrainingChart data={trainingData} />
+            <TrainingChart data={trainingData} key={Date.now()} />
             {/* Optionally, can display the training status somewhere in the component */}
             <p>Status: {trainingStatus}</p>
         </div>

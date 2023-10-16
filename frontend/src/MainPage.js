@@ -5,17 +5,20 @@ export function MainPage() {
     const navigate = useNavigate();
 
     const startTraining = () => {
-        // Navigate to the training page
-        navigate("/training");
 
-        // Initialize WebSocket connection
-        const socket = io('http://127.0.0.1:5000'); // Use your Flask server address
+        const socket = io('http://127.0.0.1:5000');
+
         // Emit the 'train' event to the server
         socket.emit('train');
+        console.log('train even emitted');
+
         // Consider disconnecting socket if you don't need it anymore in this component
-        socket.on('train_response', function (data) {
+        socket.on('update_status', function (data) {
             console.log(data.message);
         });
+
+        // Navigate to the training page
+        navigate("/training");
     };
 
     return (
