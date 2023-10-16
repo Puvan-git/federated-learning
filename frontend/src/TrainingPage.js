@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import io from 'socket.io-client';
 import TrainingChart from './chart';
+import { useSocket } from './SocketContext';
 
 export function TrainingPage() {
+    const socket = useSocket();
+
     const [trainingData, setTrainingData] = useState({
         rounds: [],
         losses: [],
@@ -29,8 +31,6 @@ export function TrainingPage() {
     // }, []);
 
     useEffect(() => {
-        const socket = io('http://127.0.0.1:5000');
-
         socket.on('update', (newData) => {
             console.log("Data Received: ", newData);
             // Update the component's state when its ongoing only 
@@ -45,9 +45,19 @@ export function TrainingPage() {
         });
 
         socket.on('update_status', (statusData) => {
+            console.log("Received status update:", statusData);
+
             if (statusData.data === 'Training completed!') {
                 setTrainingStatus('completed');  // Update training status
             }
+        });
+
+        socket.on('connect_error', (error) => {
+            console.error("Connection Error:", error);
+        });
+
+        socket.on('disconnect', (reason) => {
+            console.warn("Disconnected:", reason);
         });
 
         console.log("hi");
@@ -55,7 +65,7 @@ export function TrainingPage() {
             // socket.disconnect();
             console.log("training ended")
         };
-    }, [trainingStatus]);
+    }, [socket, trainingStatus]);
 
     return (
         <div>

@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+import { useSocket } from './SocketContext';
 
 export function MainPage() {
     const navigate = useNavigate();
+    const socket = useSocket();
 
     const startTraining = () => {
-
-        const socket = io('http://127.0.0.1:5000');
 
         // Emit the 'train' event to the server
         console.log('train event emitted');

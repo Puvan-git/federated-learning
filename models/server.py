@@ -97,11 +97,19 @@ def FedAvg():
             str(round(time.time() - round_start_time, 2)) + " seconds\n"
         )
 
+        data = {"rounds": iter,
+                "losses": loss_train,
+                "accuracies": acc_test.item()}
+
+        print("Emitting update event with data:", data)
+        emit('update', data)
+
         # Emit training status to frontend
-        emit('update', {
-            'rounds': f"Round {iter}/{args.rounds}, losses {loss_train:.3f}, accuracies {acc_test.item():.3f}"})
+        # emit('update', {
+        #     'rounds': f"Round {iter}/{args.rounds}, losses {loss_train:.3f}, accuracies {acc_test.item():.3f}"})
+        # emit('update', {'rounds': iter, 'losses': loss_train,
+        #      'accuracies': acc_test.item()})
         print(f"Round {iter} data is sent\n")
-        time.sleep(1)
 
 
 def avg(w_clients):
