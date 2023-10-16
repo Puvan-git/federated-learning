@@ -13,24 +13,18 @@ export function TrainingPage() {
 
     const [trainingStatus, setTrainingStatus] = useState('ongoing'); // New state
 
-    // useEffect(() => {
-    //     const socket = io('http://127.0.0.1:5000');
-
-    //     socket.on('update', (newData) => {
-    //         // Update the component's state with new data received from the server
-    //         setTrainingData(prevData => ({
-    //             rounds: [...prevData.rounds, newData.round],
-    //             losses: [...prevData.losses, newData.loss],
-    //             accuracies: [...prevData.accuracies, newData.accuracy]
-    //         }));
-    //     });
-
-    //     return () => {
-    //         socket.disconnect();
-    //     };
-    // }, []);
-
     useEffect(() => {
+        console.log("TrainingPage mounted!");
+
+        socket.emit('train');
+        console.log("Train event emitted");
+
+
+        socket.on('connect', (reason) => {
+            console.warn("Connected:", reason);
+        });
+
+
         socket.on('update', (newData) => {
             console.log("Data Received: ", newData);
             // Update the component's state when its ongoing only 
@@ -64,8 +58,10 @@ export function TrainingPage() {
             console.error("Socket Error:", error);
         });
 
-        console.log("hi");
+
         return () => {
+            console.log("TrainingPage unmounted!");
+
             // socket.disconnect();
             console.log("training ended")
         };
