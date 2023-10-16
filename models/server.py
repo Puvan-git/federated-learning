@@ -102,7 +102,7 @@ def FedAvg():
                 "accuracies": acc_test.item()}
 
         print("Emitting update event with data:", data)
-        emit('update', data)
+        emit('update', data, namespace='/train')
 
         # Emit training status to frontend
         # emit('update', {

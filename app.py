@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(
-    app, cors_allowed_origins="http://localhost:3000", ping_timeout=40, ping_interval=5, async_mode='eventlet')
+    app, cors_allowed_origins="http://localhost:3000", ping_timeout=60000, ping_interval=5, async_mode='eventlet')
 
 
 @app.route('/')

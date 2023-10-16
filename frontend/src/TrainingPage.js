@@ -60,6 +60,10 @@ export function TrainingPage() {
             console.warn("Disconnected:", reason);
         });
 
+        socket.on('error', (error) => {
+            console.error("Socket Error:", error);
+        });
+
         console.log("hi");
         return () => {
             // socket.disconnect();
