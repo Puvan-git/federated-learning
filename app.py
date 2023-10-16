@@ -31,10 +31,7 @@ def start_training(message=None):
 
     # Example: Access individual parameters
     FedAvg()
-
-    # Start federated training here with user_input parameters
-    # Replace simulate_training() with your actual training logic
-    # simulate_training(user_input.get('rounds', 10))
+    print("training is done")
 
     emit('update_status', {
          'data': 'Training completed!'}, namespace='/train')

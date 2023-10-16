@@ -9,8 +9,8 @@ export function MainPage() {
         const socket = io('http://127.0.0.1:5000');
 
         // Emit the 'train' event to the server
+        console.log('train event emitted');
         socket.emit('train');
-        console.log('train even emitted');
 
         // Consider disconnecting socket if you don't need it anymore in this component
         socket.on('update_status', function (data) {

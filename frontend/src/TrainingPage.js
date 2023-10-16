@@ -32,7 +32,7 @@ export function TrainingPage() {
         const socket = io('http://127.0.0.1:5000');
 
         socket.on('update', (newData) => {
-            console.log("Data Received");
+            console.log("Data Received: ", newData);
             // Update the component's state when its ongoing only 
             // with new data received from the server
             if (trainingStatus === 'ongoing') {
