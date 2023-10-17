@@ -10,14 +10,14 @@ const TrainingChart = ({ data }) => {
                 label: 'Loss',
                 data: data.losses,
                 fill: false,
-                borderColor: 'rgb(75, 192, 192)',
+                borderColor: 'rgb(255, 99, 132)',
                 tension: 0.1
             },
             {
                 label: 'Accuracy',
                 data: data.accuracies,
                 fill: false,
-                borderColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
             }
         ]

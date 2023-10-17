@@ -9,7 +9,6 @@ import torch
 from flask import Flask, render_template, send_from_directory
 from flask_cors import CORS
 from flask_socketio import SocketIO
-from models.server import FedAvg
 import logging
 
 # Set the desired log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
@@ -40,20 +39,17 @@ def start_training(message=None):
         logging.debug('Received "train" event')
         socketio.emit('train_confirmed', "Training has started!",
                       callback=acknowledgment)
-
-        print("training is done")
-
     except Exception as e:
         print(f"Error during training: {e}")
 
 
 def acknowledgment():
     print("Acknowledgment received from client!")
-    FedAvg(socketio)
+    FedAvg()
 
 
 # Modify Federated Learning algorithm
-def FedAvg(socketio):
+def FedAvg():
     """
     fedavg main algorithm
     - fedProx < possible algorithm, allow selection choice from user
@@ -143,9 +139,10 @@ def FedAvg(socketio):
                 "accuracy": acc_test.item()}
 
         print("Emitting update event with data:", data)
-        socketio.emit('update', data)
 
-        print(f"Round {iter} data is sent\n")
+        print(type(socketio))
+        socketio.emit('update', data)
+        logging.debug(f"Emitting update for round {iter}")
 
 
 def avg(w_clients):
