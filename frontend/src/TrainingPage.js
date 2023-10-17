@@ -23,8 +23,9 @@ export function TrainingPage() {
         socket.emit('train');
         console.log("Train event emitted");
 
-        socket.on('train_confirmed', (message) => {
+        socket.on('train_confirmed', (message, ack) => {
             console.log(message);
+            if (ack) ack();
         });
 
 
@@ -85,7 +86,7 @@ export function TrainingPage() {
     return (
         <div>
             <h1>Training Progress</h1>
-            <TrainingChart data={trainingData} key={Date.now()} />
+            <TrainingChart data={trainingData} />
             {/* Optionally, can display the training status somewhere in the component */}
             <p>Status: {trainingStatus}</p>
         </div>
