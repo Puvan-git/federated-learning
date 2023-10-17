@@ -15,13 +15,16 @@ export function TrainingPage() {
 
     useEffect(() => {
         console.log("TrainingPage mounted!");
+        socket.on('connect', (reason) => {
+            console.log("Connected:", reason);
+        });
+
 
         socket.emit('train');
         console.log("Train event emitted");
 
-
-        socket.on('connect', (reason) => {
-            console.warn("Connected:", reason);
+        socket.on('train_confirmed', (message) => {
+            console.log(message);
         });
 
 
@@ -44,6 +47,18 @@ export function TrainingPage() {
             if (statusData.data === 'Training completed!') {
                 setTrainingStatus('completed');  // Update training status
             }
+        });
+
+        socket.on('reconnect_attempt', () => {
+            console.log('Attempting to reconnect...');
+        });
+
+        socket.on('reconnect_error', (error) => {
+            console.error('Reconnection error:', error);
+        });
+
+        socket.on('reconnect_failed', () => {
+            console.error('Failed to reconnect.');
         });
 
         socket.on('connect_error', (error) => {

@@ -8,11 +8,10 @@ import numpy as np
 from utils.dataset import load_dataset, load_model, exp_details, save_data
 from models.test import test
 from models.client import LocalUpdate, cal_loss
-from flask_socketio import emit
 from argparse import Namespace
 
 
-def FedAvg():
+def FedAvg(socketio):
     """
     fedavg main algorithm
     - fedProx < possible algorithm, allow selection choice from user
@@ -97,12 +96,12 @@ def FedAvg():
             str(round(time.time() - round_start_time, 2)) + " seconds\n"
         )
 
-        data = {"rounds": iter,
-                "losses": loss_train,
-                "accuracies": acc_test.item()}
+        data = {"round": iter,
+                "loss": loss_train,
+                "accuracy": acc_test.item()}
 
         print("Emitting update event with data:", data)
-        emit('update', data, namespace='/train')
+        socketio.emit('update', data)
 
         # Emit training status to frontend
         # emit('update', {
