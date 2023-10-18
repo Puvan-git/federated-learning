@@ -10,7 +10,9 @@ from flask import Flask, render_template, send_from_directory
 from flask_cors import CORS
 from flask_socketio import SocketIO
 import logging
+import eventlet
 
+eventlet.monkey_patch()
 # Set the desired log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
 logging.basicConfig(level=logging.DEBUG)
 
@@ -144,6 +146,8 @@ def FedAvg():
         socketio.emit('update', data)
         logging.debug(f"Emitting update for round {iter}")
 
+        eventlet.sleep(0)
+
 
 def avg(w_clients):
     """
@@ -158,4 +162,6 @@ def avg(w_clients):
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    import eventlet.wsgi
+    # socketio.run(app, debug=True)
+    eventlet.wsgi.server(eventlet.listen(('', 5001)), app)
