@@ -44,6 +44,11 @@ def start_training(message=None):
     except Exception as e:
         print(f"Error during training: {e}")
 
+    # Emit the "Training completed!" message after the training concludes
+    completion_message = {"status": "Training completed!"}
+    socketio.emit('update_status', completion_message)
+    logging.debug("Emitting training completion status.")
+
 
 def acknowledgment():
     print("Acknowledgment received from client!")
@@ -61,7 +66,7 @@ def FedAvg():
         dataset='mnist',
         local_ep=10,
         model='mlp1',
-        rounds=5,
+        rounds=10,
         iid=1,
         num_users=10,
         num_classes=10,
