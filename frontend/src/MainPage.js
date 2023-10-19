@@ -26,17 +26,16 @@ export function MainPage() {
 
     return (
 
-        <div className="main-container">
-            <header className="top-nav">Federated Learning Playground</header>
-
-            <div className="content-area">
-                <h1 className="main-title">Welcome to the Playground</h1>
-                <p className="description">
+        <div class="main-container">
+            <header class="top-nav">Federated Learning Playground</header>
+            <div class="content-area">
+                <h1 class="main-title">Welcome to the Playground</h1>
+                <p class="description">
                     Explore and understand federated learning interactively.
                 </p>
 
                 <Form onFormSubmit={handleFormData} />
-                <button className="btn btn-primary btn-sm mx-3 px-5 py-2 mt-3" onClick={startTraining}>Start Training</button>
+                <button class="btn btn-primary btn-sm mx-3 px-5 py-2 mt-3 align-right" onClick={startTraining}>Start Training</button>
 
                 {/* Add other components or elements here */}
             </div>

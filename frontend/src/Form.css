@@ -12,7 +12,7 @@ input[type="range"] {
     margin: 10px 0;
 }
 
-.range-value-display {
+.range-display {
     position: relative;
     display: inline-block;
 }
