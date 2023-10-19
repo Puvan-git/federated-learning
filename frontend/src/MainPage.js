@@ -35,7 +35,7 @@ export function MainPage() {
                 </p>
 
                 <Form onFormSubmit={handleFormData} />
-                <button class="btn btn-primary btn-sm mx-3 px-5 py-2 mt-3 align-right" onClick={startTraining}>Start Training</button>
+                <button class="btn btn-primary btn-sm mx-3 px-5 py-2 mt-3" onClick={startTraining}>Start Training</button>
 
                 {/* Add other components or elements here */}
             </div>

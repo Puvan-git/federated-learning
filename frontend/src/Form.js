@@ -32,6 +32,10 @@ function Form() {
         console.log("Dropdown Value:", dropdownValue_data);
         console.log("Dropdown Value:", dropdownValue_algo);
         console.log("Range Value:", rangeValueEpochs);
+        console.log("Range Value:", rangeValueComm);
+        console.log("Range Value:", rangeValueUser);
+        console.log("Range Value:", rangeValueBatch);
+        console.log("Range Value:", rangeValueDeg);
     };
 
     return (
