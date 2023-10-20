@@ -93,6 +93,7 @@ def FedAvg():
     loss_train_all = []
     loss_test_all = []
     accur_test_all = []
+    selected_client_data = None
 
     for iter in range(1, args.rounds + 1):
         round_start_time = time.time()
@@ -107,6 +108,7 @@ def FedAvg():
             range(args.num_users), clients_num, replace=False
         )
         for idx in idxs_clients:  # local update
+            selected_client_idx = idxs_clients[0]
             local = LocalUpdate(
                 args=args, dataset=dataset_train, idxs=dict_users[idx])
             w, loss = local.train(copy.deepcopy(model).to(args.device), iter)
@@ -115,6 +117,17 @@ def FedAvg():
             else:
                 w_clients[idx] = copy.deepcopy(w)
             loss_locals.append(copy.deepcopy(loss))
+
+            if idx == selected_client_idx:
+                selected_client_data = {
+                    "round": iter,
+                    "loss": loss,
+                    "accuracy": 0
+                }
+                socketio.emit('update_client', selected_client_data)
+                logging.debug(
+                    f"Emitting update for selected client in round {iter}")
+
         w_server = avg(w_clients)
         model.load_state_dict(w_server)
 
@@ -149,7 +162,7 @@ def FedAvg():
         eventlet.sleep(0)
 
     # Emit the "Training completed!" message after the training concludes
-    completion_message = {"status": "Training completed!"}
+    completion_message = "Training completed"
     socketio.emit('update_status', completion_message)
     logging.debug("Emitting training completion status.")
 

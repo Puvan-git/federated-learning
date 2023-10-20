@@ -5,6 +5,12 @@ import { useSocket } from './SocketContext';
 export function TrainingPage() {
     const socket = useSocket();
 
+    const [clientData, setClientData] = useState({
+        rounds: [],
+        losses: [],
+        accuracies: []
+    })
+
     const [trainingData, setTrainingData] = useState({
         rounds: [],
         losses: [],
@@ -28,6 +34,16 @@ export function TrainingPage() {
             if (ack) ack();
         });
 
+        socket.on('update_client', (newData) => {
+            console.log("Client Data Received: ", newData);
+            if (trainingStatus === 'ongoing') {
+                setClientData(prevData => ({
+                    rounds: [...prevData.rounds, newData.round],
+                    losses: [...prevData.losses, newData.loss],
+                    accuracies: [...prevData.accuracies, newData.accuracy]
+                }));
+            }
+        });
 
         socket.on('update', (newData) => {
             console.log("Data Received: ", newData);
@@ -86,8 +102,10 @@ export function TrainingPage() {
     return (
         <div>
             <h1>Training Progress</h1>
+            <h2>Global Model</h2>
             <TrainingChart data={trainingData} />
-            {/* Optionally, can display the training status somewhere in the component */}
+            <h2>Selected Client</h2>
+            <TrainingChart data={clientData} />
             <p>Status: {trainingStatus}</p>
         </div>
     );
