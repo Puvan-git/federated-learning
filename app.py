@@ -44,11 +44,6 @@ def start_training(message=None):
     except Exception as e:
         print(f"Error during training: {e}")
 
-    # Emit the "Training completed!" message after the training concludes
-    completion_message = {"status": "Training completed!"}
-    socketio.emit('update_status', completion_message)
-    logging.debug("Emitting training completion status.")
-
 
 def acknowledgment():
     print("Acknowledgment received from client!")
@@ -152,6 +147,11 @@ def FedAvg():
         logging.debug(f"Emitting update for round {iter}")
 
         eventlet.sleep(0)
+
+    # Emit the "Training completed!" message after the training concludes
+    completion_message = {"status": "Training completed!"}
+    socketio.emit('update_status', completion_message)
+    logging.debug("Emitting training completion status.")
 
 
 def avg(w_clients):
