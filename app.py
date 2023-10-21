@@ -32,41 +32,42 @@ app.static_folder = 'static'
 
 
 @socketio.on('train')
-# For now the message parameter will be optional,
-# send user input thru the form afterwards
 def start_training(message=None):
-    # user_input = message.get('params', {})  # Get user input as a dictionary
+    user_input = message
+    # For demonstration purposes:
+    print("Received form data:", user_input)
     try:
         # Log that the event was received
         logging.debug('Received "train" event')
         socketio.emit('train_confirmed', "Training has started!",
                       callback=acknowledgment)
+
+        FedAvg(user_input)
     except Exception as e:
         print(f"Error during training: {e}")
 
 
 def acknowledgment():
     print("Acknowledgment received from client!")
-    FedAvg()
 
 
 # Modify Federated Learning algorithm
-def FedAvg():
+def FedAvg(user_params=None):
     """
     fedavg main algorithm
     - fedProx < possible algorithm, allow selection choice from user
     """
 
     args = Namespace(
-        dataset='mnist',
-        local_ep=10,
+        dataset=user_params.get('dataset'),
+        local_ep=int(user_params.get('localEpochs')),
         model='mlp1',
-        rounds=10,
+        rounds=int(user_params.get('communicationRounds')),
         iid=1,
-        num_users=5,
+        num_users=int(user_params.get('numUsers')),
         num_classes=10,
         lr=0.01,
-        frac=0.1,
+        frac=float(user_params.get('fracUsers')),
         num_channels=32,
         decay=1,
         local_bs=16,

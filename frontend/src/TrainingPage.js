@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react';
 import TrainingChart from './chart';
 import { useSocket } from './SocketContext';
+import { useLocation } from 'react-router-dom';
 
 export function TrainingPage() {
+    const location = useLocation();
+
+    const formData = location.state.formData;
+
     const socket = useSocket();
-    const [selectedClient, setSelectedClient] = useState(null);  // Currently selected client
+    const [selectedClient, setSelectedClient] = useState("");  // Currently selected client
 
     const handleClientSelection = (e) => {
         const selected = e.target.value;
@@ -29,8 +34,7 @@ export function TrainingPage() {
             console.log("Connected:", reason);
         });
 
-
-        socket.emit('train');
+        socket.emit('train', formData);
         console.log("Train event emitted");
 
         socket.on('train_confirmed', (message, ack) => {
@@ -118,7 +122,7 @@ export function TrainingPage() {
             <div className="client-selection">
                 <label htmlFor="clientSelect">Select a client: </label>
                 <select id="clientSelect" placeholder="Please Choose..." value={selectedClient} onChange={handleClientSelection}>
-                    <option value="" selection disabled>--Please choose a client--</option>
+                    <option value="" selected disabled>--Please choose a client--</option>
                     {sortedClientIDs.map(clientId => (
                         <option key={clientId} value={clientId}>{clientId}</option>
                     ))}

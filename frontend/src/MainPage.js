@@ -1,18 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './MainPage.css';
 import Form from './Form.js';
 
 export function MainPage() {
     const navigate = useNavigate();
 
+    const [formData, setFormData] = useState({});
+
     const handleFormData = (formData) => {
         console.log("Received form data in MainPage:", formData);
+        setFormData(formData);
     }
-    const startTraining = () => {
-        // Navigate to the training page
-        navigate("/training");
-    };
 
     useEffect(() => {
         // This is just a log for when the component mounts.
@@ -34,9 +33,7 @@ export function MainPage() {
                     Explore and understand federated learning interactively.
                 </p>
 
-                <Form onFormSubmit={handleFormData} />
-                <button className="btn btn-primary btn-sm mx-3 px-5 py-2 mt-3" onClick={startTraining}>Start Training</button>
-
+                <Form onFormSubmit={handleFormData} navigate={navigate} />
                 {/* Add other components or elements here */}
             </div>
         </div>

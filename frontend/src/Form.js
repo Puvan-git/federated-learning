@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './Form.css';
 
-function Form() {
-    const [dropdownValue_data, setDropdownValueData] = useState("option1");
-    const [dropdownValue_algo, setDropdownValueAlgo] = useState("option1");
-    const [dropdownValue_batch, setDropdownValueBatch] = useState("option3");
+function Form({ onFormSubmit, navigate }) {
+    const [dropdownValue_data, setDropdownValueData] = useState("mnist");
+    const [dropdownValue_algo, setDropdownValueAlgo] = useState("fedavg");
+    const [dropdownValue_batch, setDropdownValueBatch] = useState("16");
     const [rangeValueEpochs, setRangeValueEpochs] = useState(10);
-    const [rangeValueComm, setRangeValueComm] = useState(32);
+    const [rangeValueComm, setRangeValueComm] = useState(10);
     const [rangeValueUser, setRangeValueUser] = useState(5);
-    const [rangeValueFrac, setRangeValueFrac] = useState(0.3);
+    const [rangeValueFrac, setRangeValueFrac] = useState(0.1);
     const [rangeValueDeg, setRangeValueDeg] = useState(0.5);
 
 
@@ -24,14 +24,27 @@ function Form() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Dropdown Value:", dropdownValue_data);
-        console.log("Dropdown Value:", dropdownValue_algo);
-        console.log("Dropdown Value:", dropdownValue_batch);
-        console.log("Range Value:", rangeValueEpochs);
-        console.log("Range Value:", rangeValueComm);
-        console.log("Range Value:", rangeValueUser);
-        console.log("Range Value:", rangeValueFrac);
-        console.log("Range Value:", rangeValueDeg);
+        const formData = {
+            dataset: dropdownValue_data,
+            algorithm: dropdownValue_algo,
+            // batchSize: dropdownValue_batch,
+            localEpochs: rangeValueEpochs,
+            communicationRounds: rangeValueComm,
+            numUsers: rangeValueUser,
+            fracUsers: rangeValueFrac,
+            nonIIDDegree: rangeValueDeg
+        };
+        console.log("Dropdown Value Data:", dropdownValue_data);
+        console.log("Dropdown Value Algo:", dropdownValue_algo);
+        console.log("Dropdown Value batch:", dropdownValue_batch);
+        console.log("Range Value Epochs: ", rangeValueEpochs);
+        console.log("Range Value Comm_Rounds: ", rangeValueComm);
+        console.log("Range Value Users:", rangeValueUser);
+        console.log("Range Value Frac:", rangeValueFrac);
+        console.log("Range Value Deg:", rangeValueDeg);
+
+        onFormSubmit(formData);
+        navigate("/training", { state: { formData: formData } });
     };
 
     return (
@@ -42,8 +55,8 @@ function Form() {
                     <label htmlFor="inputState" className="form-label">Dataset</label>
                     <select id="inputState" placeholder="Please Choose..." className="form-select" value={dropdownValue_data} onChange={(e) => setDropdownValueData(e.target.value)}>
                         <option value="" selected disabled>Please Select...</option>
-                        <option value="option1">MNIST</option>
-                        <option value="option2">CIFAR</option>
+                        <option value="mnist">MNIST</option>
+                        <option value="cifar">CIFAR</option>
                     </select>
                 </div>
 
@@ -51,8 +64,8 @@ function Form() {
                     <label htmlFor="inputState" className="form-label">Algorithm</label>
                     <select id="inputState" placeholder="Please Choose..." className="form-select" value={dropdownValue_algo} onChange={(e) => setDropdownValueAlgo(e.target.value)}>
                         <option value="" selected disabled>Please Select...</option>
-                        <option value="option1">FedAvg</option>
-                        <option value="option2">FedProx</option>
+                        <option value="fedavg">FedAvg</option>
+                        <option value="fedprox">FedProx</option>
                     </select>
                 </div>
 
@@ -60,11 +73,12 @@ function Form() {
                     <label htmlFor="inputState" className="form-label">Batch Size</label>
                     <select id="inputState" placeholder="Please Choose..." className="form-select" value={dropdownValue_batch} onChange={(e) => setDropdownValueBatch(e.target.value)}>
                         <option value="" selected disabled>Please Select...</option>
-                        <option value="option1">32</option>
-                        <option value="option2">64</option>
-                        <option value="option3">128</option>
-                        <option value="option4">256</option>
-                        <option value="option5">512</option>
+                        <option value="16">16</option>
+                        <option value="32">32</option>
+                        <option value="64">64</option>
+                        <option value="128">128</option>
+                        <option value="256">256</option>
+                        <option value="512">512</option>
                     </select>
                 </div>
 
@@ -176,10 +190,9 @@ function Form() {
                     </div>
                 </div>
 
-                {/* Fix the location of the submit button and how it interacts with the form later*/}
-                {/* <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div> */}
+                <div clasNames="col-12">
+                    <button type="submit" className="btn btn-primary btn-sm mx-3 px-5 py-2 mt-3">Start Training</button>
+                </div>
             </form >
         </div >
     );
