@@ -13,10 +13,9 @@ import logging
 import eventlet
 
 eventlet.monkey_patch()
+
 # Set the desired log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
 logging.basicConfig(level=logging.DEBUG)
-
-# selected_client = None
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
@@ -49,12 +48,6 @@ def start_training(message=None):
 def acknowledgment():
     print("Acknowledgment received from client!")
     FedAvg()
-
-
-# @socketio.on('client_selected')
-# def handle_client_selection(client_id):
-#     global selected_client
-#     selected_client = client_id
 
 
 # Modify Federated Learning algorithm
@@ -92,9 +85,6 @@ def FedAvg():
         1 else "cpu"
     )
 
-    # socketio.emit('clients_list', args.num_users)
-    # logging.debug(f"Emitting clients_list")
-
     # load and split dataset
     dataset_train, dataset_test, dict_users = load_dataset(args)
 
@@ -105,8 +95,6 @@ def FedAvg():
     loss_train_all = []
     loss_test_all = []
     accur_test_all = []
-    selected_client_data = None
-    selected_client_accuracy = None
 
     for iter in range(1, args.rounds + 1):
         round_start_time = time.time()
@@ -122,7 +110,6 @@ def FedAvg():
             range(args.num_users), clients_num, replace=False
         )
         for idx in idxs_clients:  # local update
-            # selected_client_idx = idxs_clients[0]
             local = LocalUpdate(
                 args=args, dataset=dataset_train, idxs=dict_users[idx])
             w, loss = local.train(copy.deepcopy(model).to(args.device), iter)
@@ -146,23 +133,6 @@ def FedAvg():
             socketio.emit('update_client', client_data)
             logging.debug(
                 f"Emitting update for selected client in round {iter}")
-            # if idx == selected_client_idx:
-            #     # Load the client-specific weights to the model
-            #     client_model = copy.deepcopy(model).to(args.device)
-            #     client_model.load_state_dict(w)
-
-            #     # Evaluate the model on a test/validation dataset to get accuracy
-            #     selected_client_accuracy, _ = test(
-            #         client_model, args, dataset_test)
-
-            #     selected_client_data = {
-            #         "round": iter,
-            #         "loss": loss,
-            #         "accuracy": selected_client_accuracy.item()
-            #     }
-            #     socketio.emit('update_client', selected_client_data)
-            #     logging.debug(
-            #         f"Emitting update for selected client in round {iter}")
 
         w_server = avg(w_clients)
         model.load_state_dict(w_server)
@@ -219,5 +189,4 @@ def avg(w_clients):
 
 if __name__ == '__main__':
     import eventlet.wsgi
-    # socketio.run(app, debug=True)
     eventlet.wsgi.server(eventlet.listen(('', 5001)), app)

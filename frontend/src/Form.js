@@ -4,37 +4,33 @@ import './Form.css';
 function Form() {
     const [dropdownValue_data, setDropdownValueData] = useState("option1");
     const [dropdownValue_algo, setDropdownValueAlgo] = useState("option1");
-    const [rangeValueEpochs, setRangeValueEpochs] = useState(25);
-    const [rangeValueComm, setRangeValueComm] = useState(50);
-    const [rangeValueUser, setRangeValueUser] = useState(50);
-    const [rangeValueBatch, setRangeValueBatch] = useState(32);
+    const [dropdownValue_batch, setDropdownValueBatch] = useState("option3");
+    const [rangeValueEpochs, setRangeValueEpochs] = useState(10);
+    const [rangeValueComm, setRangeValueComm] = useState(32);
+    const [rangeValueUser, setRangeValueUser] = useState(5);
+    const [rangeValueFrac, setRangeValueFrac] = useState(0.3);
     const [rangeValueDeg, setRangeValueDeg] = useState(0.5);
 
 
-    const min = 1;
-    const max = 50;
-
-    const calculateThumbPosition = (value) => {
+    const calculateThumbPosition = (value, min, max) => {
         return ((value - min) / (max - min)) * 100;
     }
 
-    const thumbPositionEpochs = calculateThumbPosition(rangeValueEpochs);
-    const thumbPositionComm = calculateThumbPosition(rangeValueComm);
-    const thumbPositionUser = calculateThumbPosition(rangeValueUser);
-    const thumbPositionBatch = calculateThumbPosition(rangeValueBatch);
-    const thumbPositionDeg = calculateThumbPosition(rangeValueDeg);
-
-
-    const actualValue = Math.pow(2, rangeValueBatch);
+    const thumbPositionEpochs = calculateThumbPosition(rangeValueEpochs, 10, 50);
+    const thumbPositionComm = calculateThumbPosition(rangeValueComm, 10, 100);
+    const thumbPositionUser = calculateThumbPosition(rangeValueUser, 1, 100);
+    const thumbPositionFrac = calculateThumbPosition(rangeValueFrac, 0.01, 1.00);
+    const thumbPositionDeg = calculateThumbPosition(rangeValueDeg, 0.00, 1.00);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log("Dropdown Value:", dropdownValue_data);
         console.log("Dropdown Value:", dropdownValue_algo);
+        console.log("Dropdown Value:", dropdownValue_batch);
         console.log("Range Value:", rangeValueEpochs);
         console.log("Range Value:", rangeValueComm);
         console.log("Range Value:", rangeValueUser);
-        console.log("Range Value:", rangeValueBatch);
+        console.log("Range Value:", rangeValueFrac);
         console.log("Range Value:", rangeValueDeg);
     };
 
@@ -57,6 +53,18 @@ function Form() {
                         <option value="" selected disabled>Please Select...</option>
                         <option value="option1">FedAvg</option>
                         <option value="option2">FedProx</option>
+                    </select>
+                </div>
+
+                <div className="col-md-12">
+                    <label htmlFor="inputState" className="form-label">Batch Size</label>
+                    <select id="inputState" placeholder="Please Choose..." className="form-select" value={dropdownValue_batch} onChange={(e) => setDropdownValueBatch(e.target.value)}>
+                        <option value="" selected disabled>Please Select...</option>
+                        <option value="option1">32</option>
+                        <option value="option2">64</option>
+                        <option value="option3">128</option>
+                        <option value="option4">256</option>
+                        <option value="option5">512</option>
                     </select>
                 </div>
 
@@ -123,28 +131,26 @@ function Form() {
                     </div>
                 </div>
 
-
                 <div className="col-md-12 d-flex align-items-center" >
-                    <label className="form-label col-md-4">Local Batch Size</label>
+                    <label className="form-label col-md-4">Fraction of User</label>
 
 
                     <div className="col-md-8 range-display">
-                        <label htmlFor="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionBatch}% - 12px)` }}>
-                            {rangeValueBatch}
+                        <label htmlFor="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionFrac}% - 12px)` }}>
+                            {rangeValueFrac}
                         </label>
                         <input
                             className="form-range"
                             id="rangeInput"
                             type="range"
-                            min="1"
-                            max="8"
-                            step="1"
-                            value={actualValue}
-                            onChange={(e) => setRangeValueBatch(e.target.value)}
+                            min="0.01"
+                            max="1"
+                            step="0.01"
+                            value={rangeValueFrac}
+                            onChange={(e) => setRangeValueFrac(e.target.value)}
                         />
                     </div>
                 </div>
-
 
                 <div className="col-md-12 d-flex align-items-center" >
                     <label className="form-label col-md-4">Degree of nonIID or IID</label>
