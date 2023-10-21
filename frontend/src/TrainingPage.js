@@ -4,6 +4,14 @@ import { useSocket } from './SocketContext';
 
 export function TrainingPage() {
     const socket = useSocket();
+    // const [clients, setClients] = useState([]);  // List of available clients
+    // const [selectedClient, setSelectedClient] = useState(null);  // Currently selected client
+
+    // const handleClientSelection = (e) => {
+    //     const selected = e.target.value;
+    //     setSelectedClient(selected);
+    //     socket.emit('client_selected', selected);
+    // };
 
     const [clientData, setClientData] = useState({
         rounds: [],
@@ -18,6 +26,7 @@ export function TrainingPage() {
     }); // Assuming data is an array of accuracy vs loss values
 
     const [trainingStatus, setTrainingStatus] = useState('ongoing'); // New state
+    const [dropdownValue_client, setDropdownValueClient] = useState("Client 1");
 
     useEffect(() => {
         console.log("TrainingPage mounted!");
@@ -33,6 +42,10 @@ export function TrainingPage() {
             console.log(message);
             if (ack) ack();
         });
+
+        // socket.on('clients_list', (data) => {
+        //     setClients(data);
+        // });
 
         socket.on('update_client', (newData) => {
             console.log("Client Data Received: ", newData);
@@ -104,8 +117,31 @@ export function TrainingPage() {
             <h1>Training Progress</h1>
             <h2>Global Model</h2>
             <TrainingChart data={trainingData} />
+
+            <br></br>
+
+            {/* <select value={selectedClient} onChange={handleClientSelection}>
+                <option value={null} selected disabled>Select a client</option>
+                {clients.map(clientId => (
+                    <option key={clientId} value={clientId}>{clientId}</option>
+                ))}
+            </select> */}
+            <div className="client-selection">
+                <label htmlFor="clientSelect">Select a client: </label>
+                <select id="clientSelect" placeholder="Please Choose..." value={dropdownValue_client}>
+                    <option value="" selection disabled>--Please choose a client--</option>
+                </select>
+            </div>
+
+
             <h2>Selected Client</h2>
             <TrainingChart data={clientData} />
+            {/* {clientData.rounds.length > 0 ? (
+                <TrainingChart data={clientData} />
+            ) : (
+                <p>No data available for the selected client.</p>
+            )} */}
+
             <p>Status: {trainingStatus}</p>
         </div>
     );

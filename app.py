@@ -16,6 +16,7 @@ eventlet.monkey_patch()
 # Set the desired log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
 logging.basicConfig(level=logging.DEBUG)
 
+# selected_client = None
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
@@ -48,6 +49,12 @@ def start_training(message=None):
 def acknowledgment():
     print("Acknowledgment received from client!")
     FedAvg()
+
+
+# @socketio.on('client_selected')
+# def handle_client_selection(client_id):
+#     global selected_client
+#     selected_client = client_id
 
 
 # Modify Federated Learning algorithm
@@ -84,6 +91,10 @@ def FedAvg():
         f"cuda:{args.gpu}" if torch.cuda.is_available() and args.gpu != -
         1 else "cpu"
     )
+
+    # socketio.emit('clients_list', args.num_users)
+    # logging.debug(f"Emitting clients_list")
+
     # load and split dataset
     dataset_train, dataset_test, dict_users = load_dataset(args)
     # build model
@@ -94,6 +105,7 @@ def FedAvg():
     loss_test_all = []
     accur_test_all = []
     selected_client_data = None
+    selected_client_accuracy = None
 
     for iter in range(1, args.rounds + 1):
         round_start_time = time.time()
@@ -104,6 +116,7 @@ def FedAvg():
         else:
             w_clients = [w_server for i in range(args.num_users)]
         clients_num = max(int(args.frac * args.num_users), 1)
+
         idxs_clients = np.random.choice(
             range(args.num_users), clients_num, replace=False
         )
@@ -119,10 +132,18 @@ def FedAvg():
             loss_locals.append(copy.deepcopy(loss))
 
             if idx == selected_client_idx:
+                # Load the client-specific weights to the model
+                client_model = copy.deepcopy(model).to(args.device)
+                client_model.load_state_dict(w)
+
+                # Evaluate the model on a test/validation dataset to get accuracy
+                selected_client_accuracy, _ = test(
+                    client_model, args, dataset_test)
+
                 selected_client_data = {
                     "round": iter,
                     "loss": loss,
-                    "accuracy": 0
+                    "accuracy": selected_client_accuracy.item()
                 }
                 socketio.emit('update_client', selected_client_data)
                 logging.debug(
@@ -139,6 +160,7 @@ def FedAvg():
         loss_test_all.append(loss_test)
         accur_test_all.append(acc_test)
         results_all = [loss_train_all, loss_test_all, accur_test_all]
+
         # save results
         if iter % 50 == 0 or iter == args.rounds:
             save_data(args, results_all, model, iter)
@@ -161,10 +183,11 @@ def FedAvg():
 
         eventlet.sleep(0)
 
-    # Emit the "Training completed!" message after the training concludes
-    completion_message = "Training completed"
-    socketio.emit('update_status', completion_message)
-    logging.debug("Emitting training completion status.")
+        if (iter == args.rounds):
+            # Emit the "Training completed!" message after the training concludes
+            completion_message = "Training completed"
+            socketio.emit('update_status', completion_message)
+            logging.debug("Emitting training completion status.")
 
 
 def avg(w_clients):

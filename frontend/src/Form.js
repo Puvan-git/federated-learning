@@ -39,33 +39,33 @@ function Form() {
     };
 
     return (
-        <div class="container mt-5">
-            <form class="row g-3" onSubmit={handleSubmit}>
+        <div className="container mt-5">
+            <form className="row g-3" onSubmit={handleSubmit}>
 
-                <div class="col-md-12">
-                    <label for="inputState" class="form-label">Dataset</label>
-                    <select id="inputState" placeholder="Please Choose..." class="form-select" value={dropdownValue_data} onChange={(e) => setDropdownValueData(e.target.value)}>
+                <div className="col-md-12">
+                    <label htmlFor="inputState" className="form-label">Dataset</label>
+                    <select id="inputState" placeholder="Please Choose..." className="form-select" value={dropdownValue_data} onChange={(e) => setDropdownValueData(e.target.value)}>
                         <option value="" selected disabled>Please Select...</option>
                         <option value="option1">MNIST</option>
                         <option value="option2">CIFAR</option>
                     </select>
                 </div>
 
-                <div class="col-md-12">
-                    <label for="inputState" class="form-label">Algorithm</label>
-                    <select id="inputState" placeholder="Please Choose..." class="form-select" value={dropdownValue_algo} onChange={(e) => setDropdownValueAlgo(e.target.value)}>
+                <div className="col-md-12">
+                    <label htmlFor="inputState" className="form-label">Algorithm</label>
+                    <select id="inputState" placeholder="Please Choose..." className="form-select" value={dropdownValue_algo} onChange={(e) => setDropdownValueAlgo(e.target.value)}>
                         <option value="" selected disabled>Please Select...</option>
                         <option value="option1">FedAvg</option>
                         <option value="option2">FedProx</option>
                     </select>
                 </div>
 
-                <div class="col-md-12 d-flex align-items-center" >
-                    <label class="form-label col-md-4">No. of Local Epochs</label>
+                <div className="col-md-12 d-flex align-items-center" >
+                    <label className="form-label col-md-4">No. of Local Epochs</label>
 
 
-                    <div class="col-md-8 range-display">
-                        <label for="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionEpochs}% - 12px)` }}>
+                    <div className="col-md-8 range-display">
+                        <label htmlFor="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionEpochs}% - 12px)` }}>
                             {rangeValueEpochs}
                         </label>
                         <input
@@ -81,16 +81,16 @@ function Form() {
                     </div>
                 </div>
 
-                <div class="col-md-12 d-flex align-items-center" >
-                    <label class="form-label col-md-4">No. of Communication Rounds</label>
+                <div className="col-md-12 d-flex align-items-center" >
+                    <label className="form-label col-md-4">No. of Communication Rounds</label>
 
 
-                    <div class="col-md-8 range-display">
-                        <label for="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionComm}% - 12px)` }}>
+                    <div className="col-md-8 range-display">
+                        <label htmlFor="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionComm}% - 12px)` }}>
                             {rangeValueComm}
                         </label>
                         <input
-                            class="form-range"
+                            className="form-range"
                             id="rangeInput"
                             type="range"
                             min="10"
@@ -103,16 +103,16 @@ function Form() {
                 </div>
 
 
-                <div class="col-md-12 d-flex align-items-center" >
-                    <label class="form-label col-md-4">No. of Users</label>
+                <div className="col-md-12 d-flex align-items-center" >
+                    <label className="form-label col-md-4">No. of Users</label>
 
 
-                    <div class="col-md-8 range-display">
-                        <label for="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionUser}% - 12px)` }}>
+                    <div className="col-md-8 range-display">
+                        <label htmlFor="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionUser}% - 12px)` }}>
                             {rangeValueUser}
                         </label>
                         <input
-                            class="form-range"
+                            className="form-range"
                             id="rangeInput"
                             type="range"
                             min="1"
@@ -124,16 +124,16 @@ function Form() {
                 </div>
 
 
-                <div class="col-md-12 d-flex align-items-center" >
-                    <label class="form-label col-md-4">Local Batch Size</label>
+                <div className="col-md-12 d-flex align-items-center" >
+                    <label className="form-label col-md-4">Local Batch Size</label>
 
 
-                    <div class="col-md-8 range-display">
-                        <label for="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionBatch}% - 12px)` }}>
+                    <div className="col-md-8 range-display">
+                        <label htmlFor="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionBatch}% - 12px)` }}>
                             {rangeValueBatch}
                         </label>
                         <input
-                            class="form-range"
+                            className="form-range"
                             id="rangeInput"
                             type="range"
                             min="1"
@@ -146,15 +146,15 @@ function Form() {
                 </div>
 
 
-                <div class="col-md-12 d-flex align-items-center" >
-                    <label class="form-label col-md-4">Degree of nonIID or IID</label>
+                <div className="col-md-12 d-flex align-items-center" >
+                    <label className="form-label col-md-4">Degree of nonIID or IID</label>
 
-                    <div class="col-md-8 range-display">
-                        <label for="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionDeg}% - 12px)` }}>
+                    <div className="col-md-8 range-display">
+                        <label htmlFor="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionDeg}% - 12px)` }}>
                             {rangeValueDeg}
                         </label>
                         <input
-                            class="form-range"
+                            className="form-range"
                             id="rangeInput"
                             type="range"
                             min="0"
@@ -163,7 +163,7 @@ function Form() {
                             value={rangeValueDeg}
                             onChange={(e) => setRangeValueDeg(e.target.value)}
                         />
-                        <div class="d-flex justify-content-between mt-1">
+                        <div className="d-flex justify-content-between mt-1">
                             <span>0: nonIID</span>
                             <span>1: IID</span>
                         </div>
