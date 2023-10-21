@@ -8,7 +8,7 @@ function Form({ onFormSubmit, navigate }) {
     const [rangeValueEpochs, setRangeValueEpochs] = useState(10);
     const [rangeValueComm, setRangeValueComm] = useState(10);
     const [rangeValueUser, setRangeValueUser] = useState(5);
-    const [rangeValueFrac, setRangeValueFrac] = useState(0.1);
+    const [rangeValueFrac, setRangeValueFrac] = useState(0.6);
     const [rangeValueDeg, setRangeValueDeg] = useState(0.5);
 
 
@@ -27,7 +27,7 @@ function Form({ onFormSubmit, navigate }) {
         const formData = {
             dataset: dropdownValue_data,
             algorithm: dropdownValue_algo,
-            // batchSize: dropdownValue_batch,
+            batchSize: dropdownValue_batch,
             localEpochs: rangeValueEpochs,
             communicationRounds: rangeValueComm,
             numUsers: rangeValueUser,
@@ -157,7 +157,7 @@ function Form({ onFormSubmit, navigate }) {
                             className="form-range"
                             id="rangeInput"
                             type="range"
-                            min="0.01"
+                            min="0.6"
                             max="1"
                             step="0.01"
                             value={rangeValueFrac}
@@ -190,7 +190,7 @@ function Form({ onFormSubmit, navigate }) {
                     </div>
                 </div>
 
-                <div clasNames="col-12">
+                <div className="col-12 d-flex justify-content-center align-items-center">
                     <button type="submit" className="btn btn-primary btn-sm mx-3 px-5 py-2 mt-3">Start Training</button>
                 </div>
             </form >
