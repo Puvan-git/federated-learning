@@ -70,7 +70,7 @@ def FedAvg():
         model='mlp1',
         rounds=10,
         iid=1,
-        num_users=10,
+        num_users=5,
         num_classes=10,
         lr=0.01,
         frac=0.1,
@@ -97,6 +97,7 @@ def FedAvg():
 
     # load and split dataset
     dataset_train, dataset_test, dict_users = load_dataset(args)
+
     # build model
     model = load_model(args, dataset_train)
     w_server = model.state_dict()
@@ -121,7 +122,7 @@ def FedAvg():
             range(args.num_users), clients_num, replace=False
         )
         for idx in idxs_clients:  # local update
-            selected_client_idx = idxs_clients[1]
+            # selected_client_idx = idxs_clients[0]
             local = LocalUpdate(
                 args=args, dataset=dataset_train, idxs=dict_users[idx])
             w, loss = local.train(copy.deepcopy(model).to(args.device), iter)
@@ -131,23 +132,37 @@ def FedAvg():
                 w_clients[idx] = copy.deepcopy(w)
             loss_locals.append(copy.deepcopy(loss))
 
-            if idx == selected_client_idx:
-                # Load the client-specific weights to the model
-                client_model = copy.deepcopy(model).to(args.device)
-                client_model.load_state_dict(w)
+            client_model = copy.deepcopy(model).to(args.device)
+            client_model.load_state_dict(w)
+            client_accuracy, _ = test(client_model, args, dataset_test)
 
-                # Evaluate the model on a test/validation dataset to get accuracy
-                selected_client_accuracy, _ = test(
-                    client_model, args, dataset_test)
+            client_data = {
+                "clientID": f"Client {idx+1}",
+                "round": iter,
+                "loss": loss,
+                "accuracy": client_accuracy.item()
+            }
 
-                selected_client_data = {
-                    "round": iter,
-                    "loss": loss,
-                    "accuracy": selected_client_accuracy.item()
-                }
-                socketio.emit('update_client', selected_client_data)
-                logging.debug(
-                    f"Emitting update for selected client in round {iter}")
+            socketio.emit('update_client', client_data)
+            logging.debug(
+                f"Emitting update for selected client in round {iter}")
+            # if idx == selected_client_idx:
+            #     # Load the client-specific weights to the model
+            #     client_model = copy.deepcopy(model).to(args.device)
+            #     client_model.load_state_dict(w)
+
+            #     # Evaluate the model on a test/validation dataset to get accuracy
+            #     selected_client_accuracy, _ = test(
+            #         client_model, args, dataset_test)
+
+            #     selected_client_data = {
+            #         "round": iter,
+            #         "loss": loss,
+            #         "accuracy": selected_client_accuracy.item()
+            #     }
+            #     socketio.emit('update_client', selected_client_data)
+            #     logging.debug(
+            #         f"Emitting update for selected client in round {iter}")
 
         w_server = avg(w_clients)
         model.load_state_dict(w_server)

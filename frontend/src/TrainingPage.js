@@ -4,20 +4,16 @@ import { useSocket } from './SocketContext';
 
 export function TrainingPage() {
     const socket = useSocket();
-    // const [clients, setClients] = useState([]);  // List of available clients
-    // const [selectedClient, setSelectedClient] = useState(null);  // Currently selected client
+    const [selectedClient, setSelectedClient] = useState(null);  // Currently selected client
 
-    // const handleClientSelection = (e) => {
-    //     const selected = e.target.value;
-    //     setSelectedClient(selected);
-    //     socket.emit('client_selected', selected);
-    // };
+    const handleClientSelection = (e) => {
+        const selected = e.target.value;
+        setSelectedClient(selected);
+    };
 
-    const [clientData, setClientData] = useState({
-        rounds: [],
-        losses: [],
-        accuracies: []
-    })
+    const [clientsData, setClientsData] = useState({})
+
+    const sortedClientIDs = Object.keys(clientsData).sort();
 
     const [trainingData, setTrainingData] = useState({
         rounds: [],
@@ -42,19 +38,21 @@ export function TrainingPage() {
             if (ack) ack();
         });
 
-        // socket.on('clients_list', (data) => {
-        //     setClients(data);
-        // });
-
         socket.on('update_client', (newData) => {
-            console.log("Client Data Received: ", newData);
-            if (trainingStatus === 'ongoing') {
-                setClientData(prevData => ({
-                    rounds: [...prevData.rounds, newData.round],
-                    losses: [...prevData.losses, newData.loss],
-                    accuracies: [...prevData.accuracies, newData.accuracy]
-                }));
-            }
+            setClientsData(prevData => {
+                let clientID = newData.clientID;
+                if (!prevData[clientID]) {
+                    prevData[clientID] = {
+                        rounds: [],
+                        losses: [],
+                        accuracies: []
+                    };
+                }
+                prevData[clientID].rounds.push(newData.round);
+                prevData[clientID].losses.push(newData.loss);
+                prevData[clientID].accuracies.push(newData.accuracy);
+                return { ...prevData };
+            });
         });
 
         socket.on('update', (newData) => {
@@ -105,8 +103,6 @@ export function TrainingPage() {
 
         return () => {
             console.log("TrainingPage unmounted!");
-
-            // socket.disconnect();
             console.log("training ended")
         };
     }, [socket, trainingStatus]);
@@ -119,37 +115,23 @@ export function TrainingPage() {
 
             <br></br>
 
-            {/* <select value={selectedClient} onChange={handleClientSelection}>
-                <option value={null} selected disabled>Select a client</option>
-                {clients.map(clientId => (
-                    <option key={clientId} value={clientId}>{clientId}</option>
-                ))}
-            </select> */}
             <div className="client-selection">
                 <label htmlFor="clientSelect">Select a client: </label>
-                <select id="clientSelect" placeholder="Please Choose..." value='Client 1'>
+                <select id="clientSelect" placeholder="Please Choose..." value={selectedClient} onChange={handleClientSelection}>
                     <option value="" selection disabled>--Please choose a client--</option>
-                    <option value="">Client 1</option>
-                    <option value="">Client 2</option>
-                    <option value="">Client 3</option>
-                    <option value="">Client 4</option>
-                    <option value="">Client 5</option>
-                    <option value="">Client 6</option>
-                    <option value="">Client 7</option>
-                    <option value="">Client 8</option>
-                    <option value="">Client 9</option>
-                    <option value="">Client 10</option>
+                    {sortedClientIDs.map(clientId => (
+                        <option key={clientId} value={clientId}>{clientId}</option>
+                    ))}
                 </select>
             </div>
 
 
             <h2>Selected Client</h2>
-            <TrainingChart data={clientData} />
-            {/* {clientData.rounds.length > 0 ? (
-                <TrainingChart data={clientData} />
+            {selectedClient && clientsData[selectedClient] ? (
+                <TrainingChart data={clientsData[selectedClient]} />
             ) : (
-                <p>No data available for the selected client.</p>
-            )} */}
+                <p>Select a client to view its data.</p>
+            )}
 
             <p>Status: {trainingStatus}</p>
         </div>
