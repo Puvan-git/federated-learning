@@ -26,7 +26,6 @@ export function TrainingPage() {
     }); // Assuming data is an array of accuracy vs loss values
 
     const [trainingStatus, setTrainingStatus] = useState('ongoing'); // New state
-    const [dropdownValue_client, setDropdownValueClient] = useState("Client 1");
 
     useEffect(() => {
         console.log("TrainingPage mounted!");
@@ -128,8 +127,18 @@ export function TrainingPage() {
             </select> */}
             <div className="client-selection">
                 <label htmlFor="clientSelect">Select a client: </label>
-                <select id="clientSelect" placeholder="Please Choose..." value={dropdownValue_client}>
+                <select id="clientSelect" placeholder="Please Choose..." value='Client 1'>
                     <option value="" selection disabled>--Please choose a client--</option>
+                    <option value="">Client 1</option>
+                    <option value="">Client 2</option>
+                    <option value="">Client 3</option>
+                    <option value="">Client 4</option>
+                    <option value="">Client 5</option>
+                    <option value="">Client 6</option>
+                    <option value="">Client 7</option>
+                    <option value="">Client 8</option>
+                    <option value="">Client 9</option>
+                    <option value="">Client 10</option>
                 </select>
             </div>
 

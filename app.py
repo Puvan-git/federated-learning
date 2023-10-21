@@ -121,7 +121,7 @@ def FedAvg():
             range(args.num_users), clients_num, replace=False
         )
         for idx in idxs_clients:  # local update
-            selected_client_idx = idxs_clients[0]
+            selected_client_idx = idxs_clients[1]
             local = LocalUpdate(
                 args=args, dataset=dataset_train, idxs=dict_users[idx])
             w, loss = local.train(copy.deepcopy(model).to(args.device), iter)
