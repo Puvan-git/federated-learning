@@ -44,8 +44,11 @@ To start the development server,
    This comparative view can offer insights into how individual client training affects or aligns with the global model's training.
 
 ## Screenshots
-#Training results with Fractional_Participation_Rate = 0.6
+## Training results with Fractional_Participation_Rate = 0.6
+Client 2
 ![Client 2](https://github.com/Puvan-git/federated-learning/blob/main/images/global_w_client2.png)
+
+Client 3
 ![Client 3](https://github.com/Puvan-git/federated-learning/blob/main/images/global_w_client3.png)
 
 ## Troubleshooting
