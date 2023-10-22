@@ -45,11 +45,11 @@ To start the development server,
 
 ## Screenshots
 ## Training results with Fractional_Participation_Rate = 0.6
-Client 2
-![Client 2](https://github.com/Puvan-git/federated-learning/blob/main/images/global_w_client2.png)
-
-Client 3
+### Client 3
 ![Client 3](https://github.com/Puvan-git/federated-learning/blob/main/images/global_w_client3.png)
+
+### Client 2
+![Client 3](https://github.com/Puvan-git/federated-learning/blob/main/images/global_w_client2.png)
 
 ## Troubleshooting
 1) Failing to plot graph data
