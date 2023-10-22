@@ -18,13 +18,13 @@ Federated learning is the leading paradigm for the collaborative training of mac
 2. Navigate to the app's directory: `cd federated-learning`
 3. Install dependencies: `npm install`
 
-## Setting Up Environment Variables
-Explain how to set up any required environment variables.
-
 ## Running the App
 To start the development server,
-1. Navigate to `/frontend` directory
-2. run: `npm start`
+1. Start a terminal
+2. run: `python3 app.py`
+3. Begin new terminal
+4. Navigate to `/frontend` directory
+5. run: `npm start` on current terminal
 
 ## Features & Usage
 1. Form-Based Hyperparameter Selection:
@@ -44,7 +44,9 @@ To start the development server,
    This comparative view can offer insights into how individual client training affects or aligns with the global model's training.
 
 ## Screenshots
-
+#Training results with Fractional_Participation_Rate = 0.6
+![Client 2](https://github.com/Puvan-git/federated-learning/blob/main/images/global_w_client2.png)
+![Client 3](https://github.com/Puvan-git/federated-learning/blob/main/images/global_w_client3.png)
 
 ## Troubleshooting
 1) Failing to plot graph data
