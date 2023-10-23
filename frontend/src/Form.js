@@ -146,7 +146,7 @@ function Form({ onFormSubmit, navigate }) {
                 </div>
 
                 <div className="col-md-12 d-flex align-items-center" >
-                    <label className="form-label col-md-4">Fraction of User</label>
+                    <label className="form-label col-md-4">Percentage of User Selected</label>
 
 
                     <div className="col-md-8 range-display">
@@ -157,8 +157,8 @@ function Form({ onFormSubmit, navigate }) {
                             className="form-range"
                             id="rangeInput"
                             type="range"
-                            min="0.6"
-                            max="1"
+                            min="60"
+                            max="100"
                             step="0.01"
                             value={rangeValueFrac}
                             onChange={(e) => setRangeValueFrac(e.target.value)}
@@ -167,7 +167,7 @@ function Form({ onFormSubmit, navigate }) {
                 </div>
 
                 <div className="col-md-12 d-flex align-items-center" >
-                    <label className="form-label col-md-4">Degree of nonIID or IID</label>
+                    <label className="form-label col-md-4">Degree of non-IID</label>
 
                     <div className="col-md-8 range-display">
                         <label htmlFor="rangeInput" style={{ top: '-1.5rem', left: `calc(${thumbPositionDeg}% - 12px)` }}>
