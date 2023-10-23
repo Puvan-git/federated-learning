@@ -8,7 +8,7 @@ function Form({ onFormSubmit, navigate }) {
     const [rangeValueEpochs, setRangeValueEpochs] = useState(10);
     const [rangeValueComm, setRangeValueComm] = useState(10);
     const [rangeValueUser, setRangeValueUser] = useState(5);
-    const [rangeValueFrac, setRangeValueFrac] = useState(0.6);
+    const [rangeValueFrac, setRangeValueFrac] = useState(60);
     const [rangeValueDeg, setRangeValueDeg] = useState(0.5);
 
 
@@ -157,7 +157,7 @@ function Form({ onFormSubmit, navigate }) {
                             className="form-range"
                             id="rangeInput"
                             type="range"
-                            min="60"
+                            min="0"
                             max="100"
                             step="0.01"
                             value={rangeValueFrac}
@@ -184,7 +184,7 @@ function Form({ onFormSubmit, navigate }) {
                             onChange={(e) => setRangeValueDeg(e.target.value)}
                         />
                         <div className="d-flex justify-content-between mt-1">
-                            <span>0: nonIID</span>
+                            <span>0: non-IID</span>
                             <span>1: IID</span>
                         </div>
                     </div>
