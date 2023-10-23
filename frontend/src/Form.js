@@ -146,7 +146,7 @@ function Form({ onFormSubmit, navigate }) {
                 </div>
 
                 <div className="col-md-12 d-flex align-items-center" >
-                    <label className="form-label col-md-4">Percentage of User Selected</label>
+                    <label className="form-label col-md-4">Percentage of Users Selected</label>
 
 
                     <div className="col-md-8 range-display">
