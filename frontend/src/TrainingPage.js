@@ -75,7 +75,7 @@ export function TrainingPage() {
         socket.on('update_status', (statusData) => {
             console.log("Received status update:", statusData);
 
-            if (statusData.data === 'Training completed!') {
+            if (statusData.data === 'Training completed') {
                 setTrainingStatus('completed');  // Update training status
             }
         });
