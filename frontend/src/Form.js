@@ -9,7 +9,7 @@ function Form({ onFormSubmit, navigate }) {
     const [rangeValueComm, setRangeValueComm] = useState(10);
     const [rangeValueUser, setRangeValueUser] = useState(5);
     const [rangeValueFrac, setRangeValueFrac] = useState(60);
-    const [rangeValueDeg, setRangeValueDeg] = useState(0.5);
+    const [rangeValueDeg, setRangeValueDeg] = useState(0);
 
 
     const calculateThumbPosition = (value, min, max) => {
