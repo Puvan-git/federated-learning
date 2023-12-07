@@ -94,7 +94,7 @@ function Form({ onFormSubmit, navigate }) {
                             class="form-range"
                             id="rangeInput"
                             type="range"
-                            min="10"
+                            min="5"
                             max="50"
                             step="10"
                             value={rangeValueEpochs}
@@ -115,7 +115,7 @@ function Form({ onFormSubmit, navigate }) {
                             className="form-range"
                             id="rangeInput"
                             type="range"
-                            min="10"
+                            min="5"
                             max="100"
                             step="10"
                             value={rangeValueComm}
