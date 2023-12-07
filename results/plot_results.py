@@ -4,6 +4,7 @@ import numpy as np
 data_rounds = 100
 plot_rounds = data_rounds
 
+# mlp1_iid = np.load('./results/FedAvg_mnist_rounds-5_iid-1_mlp1.npy', allow_pickle=True).tolist()
 cnn1_noniid = np.load('./results/rounds_100/FedAvg_mnist_rounds-' +
                       str(data_rounds) + '_iid-0_cnn1.npy', allow_pickle=True).tolist()
 mlp1_noniid = np.load('./results/rounds_100/FedAvg_mnist_rounds-' +
@@ -21,7 +22,7 @@ mlp1_iid = np.load('./results/rounds_100/FedAvg_mnist_rounds-' +
                    str(data_rounds) + '_iid-1_mlp1.npy', allow_pickle=True).tolist()
 cnn1_iid = np.load('./results/rounds_100/FedAvg_mnist_rounds-' +
                    str(data_rounds) + '_iid-1_cnn1.npy', allow_pickle=True).tolist()
-resnet1_iid = np.load('./results/rounds_100/fdaddFedAvg_mnist_rounds-' +
+resnet1_iid = np.load('./results/rounds_100/FedAvg_mnist_rounds-' +
                       str(data_rounds) + '_iid-1_resnet1.npy', allow_pickle=True).tolist()
 # mlp2_iid = np.load('./results/FedAvg_mnist_rounds-' +
 #                    str(data_rounds) + '_iid-1_mlp2.npy', allow_pickle=True).tolist()
@@ -29,6 +30,35 @@ resnet1_iid = np.load('./results/rounds_100/fdaddFedAvg_mnist_rounds-' +
 #                    str(data_rounds) + '_iid-1_cnn2.npy', allow_pickle=True).tolist()
 # resnet2_iid = np.load('./results/FedAvg_mnist_rounds-' +
 #                       str(data_rounds) + '_iid-1_resnet2.npy', allow_pickle=True).tolist()
+# plt.figure()
+# plt.plot(range(1, 5 + 1),
+#              mlp1_iid[2][0: 5], '', label='FedAvg-MLP1')
+# plt.legend()
+# plt.xlabel('Rounds')
+# plt.ylabel('Test accuracy')
+# plt.title('Test accuracy vs training rounds for IID data')
+
+
+# plt.figure()
+# plt.plot(range(1, 5 + 1),
+#             mlp1_iid[0][0: 5], '', label='FedAvg-MLP1')
+# plt.legend()
+# plt.yscale('log')
+# plt.xscale('log')
+# plt.xlabel('Rounds')
+# plt.ylabel('Train loss')
+# plt.title('Train loss vs training rounds for IID data')
+
+# plt.figure()
+# plt.plot(range(1, 5 + 1),
+#             mlp1_iid[1][0: 5], '', label='FedAvg-MLP1')
+# plt.legend()
+# plt.yscale('log')
+# plt.xscale('log')
+# plt.xlabel('Rounds')
+# plt.ylabel('Test loss')
+# plt.title('Test loss vs training rounds for IID data')
+
 
 if 'cnn1_noniid' in locals():
     # Test accuracy Non-IID
