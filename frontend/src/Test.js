@@ -1,4 +1,4 @@
-export const page = () => {
+export const Test = () => {
     return (
         <div>
             <p>hello</p>
